@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--数据源配置-->
+    <bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close"
+          p:poolProperties-ref="poolProperties"/>
+
+    <bean id="poolProperties" class="org.apache.tomcat.jdbc.pool.PoolProperties"
+          p:url="jdbc:mysql://127.0.0.1:3306/demo" p:driverClassName="com.mysql.jdbc.Driver" p:username="root"
+          p:password="root" p:jmxEnabled="true" p:testWhileIdle="false"
+          p:testOnBorrow="true" p:validationInterval="30000" p:testOnReturn="false" p:validationQuery="select 1"
+          p:timeBetweenEvictionRunsMillis="30000" p:maxActive="100" p:initialSize="10" p:maxWait="10000"
+          p:removeAbandonedTimeout="120" p:minEvictableIdleTimeMillis="30000" p:minIdle="10" p:logAbandoned="true"
+          p:removeAbandoned="true"
+          p:jdbcInterceptors="org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer"/>
+    <!-- JPA实体管理器工厂 -->
+    <bean id="entityManagerFactory"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+          p:dataSource-ref="dataSource" p:jpaVendorAdapter-ref="jpaVendorAdapter"
+          p:packagesToScan="cn.shiro.demo.**.models">
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+                <prop key="hibernate.max_fetch_depth">3</prop>
+                <prop key="hibernate.jdbc.fetch_size">18</prop>
+                <prop key="hibernate.jdbc.batch_size">10</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="javax.persistence.validation.mode">none</prop>
+
+                <prop key="javax.persistence.sharedCache.mode">NONE</prop>
+                <prop key="hibernate.cache.use_query_cache">false</prop>
+                <!-- 建表的命名规则 -->
+                <prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
+                <!--<prop key="hibernate.cache.region.factory_class">-->
+                <!--org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory-->
+                <!--</prop>-->
+                <!--<prop key="hibernate.cache.provider_configuration">classpath:ehcache.xml</prop>-->
+            </props>
+        </property>
+    </bean>
+
+    <!-- 用于设置JPA实现厂商的特定属性 -->
+    <bean id="jpaVendorAdapter"
+          class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"
+          p:databasePlatform="MYSQL" p:generateDdl="true"/>
+
+    <!-- 事务管理器 -->
+    <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager"
+          p:entityManagerFactory-ref="entityManagerFactory"/>
+
+    <!--<jpa:repositories base-package="cn.shiro.demo.**.repositories"-->
+                      <!--entity-manager-factory-ref="entityManagerFactory"-->
+                      <!--transaction-manager-ref="txManager"/>-->
+    <!-- 注解式事务 -->
+    <tx:annotation-driven transaction-manager="txManager"/>
+
+    <context:component-scan base-package="cn.**">
+        <context:exclude-filter type="assignable" expression="org.springframework.data.repository.Repository"/>
+    </context:component-scan>
+    <!--初始化数据库脚本-->
+    <!--<jdbc:initialize-database data-source="dataSource" ignore-failures="ALL">
+        <jdbc:script location="classpath:initDataDictionary.sql"/>
+    </jdbc:initialize-database>-->
+</beans>

@@ -1,0 +1,19 @@
+group 'com'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'war'
+
+sourceCompatibility = 1.6
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile project(':api:base.api')
+    compile('javax.servlet:servlet-api:3.0-alpha-1')
+    compile ('org.springframework:spring-test:4.2.4.RELEASE')
+    compile('junit:junit:4.12')
+
+}

@@ -1,0 +1,8 @@
+apply plugin: 'java'
+apply plugin: 'war'
+
+dependencies {
+    compile project(':api:base.api')
+    compile 'org.springframework:spring-jms:4.2.4.RELEASE'
+    compile 'org.apache.activemq:activemq-core:5.7.0'
+}

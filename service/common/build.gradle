@@ -1,0 +1,7 @@
+apply plugin: 'war'
+
+dependencies {
+    compile project(':api:base.api')
+    compile('jexcelapi:jxl:2.6')
+}
+

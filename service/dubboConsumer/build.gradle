@@ -1,0 +1,9 @@
+apply plugin: 'war'
+
+dependencies {
+    compile project(':api:base.api')
+    compile project(':api:common.api')
+    compile fileTree(dir: 'libs', include: '*.jar', exclude: '*sources.jar')
+    testCompile ('org.springframework:spring-test:4.2.4.RELEASE')
+    testCompile('junit:junit:4.12')
+}

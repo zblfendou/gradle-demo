@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--<bean class="cn.site.commons.utils.EncryptPropertyPlaceholder" p:localOverride="true"
+          p:ignoreResourceNotFound="true">
+        <property name="locations">
+            <list>
+                <value>file:config/jdbc.properties</value>
+                <value>file:config/serviceConfig.properties</value>
+                <value>file:config/dubboConfig.properties</value>
+            </list>
+        </property>
+        <property name="encryptedKeys">
+            <list value-type="java.lang.String">
+                <value>jdbc.url</value>
+                <value>jdbc.username</value>
+                <value>jdbc.password</value>
+                <value>rabbitMQ.password</value>
+            </list>
+        </property>
+    </bean>-->
+    <context:component-scan base-package="com.demo.**">
+        <context:exclude-filter type="assignable" expression="org.springframework.data.repository.Repository"/>
+    </context:component-scan>
+    <!--<context:annotation-config/>
+    <task:annotation-driven/>
+    <dubbo:registry protocol="${dubbo.registry.protocol}" address="${dubbo.registry.address}"/>-->
+
+</beans>

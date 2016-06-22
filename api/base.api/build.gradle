@@ -1,0 +1,36 @@
+dependencies {
+    testCompile(
+            'org.springframework:spring-test:4.2.4.RELEASE',
+            'junit:junit:4.12'
+    )
+    runtime(
+            'ch.qos.logback:logback-classic:1.1.3',
+            'org.apache.tomcat:tomcat-jdbc:8.0.30',
+            'org.hibernate:hibernate-entitymanager:5.0.6.Final',
+            'org.hibernate:hibernate-ehcache:5.0.6.Final',
+            'commons-collections:commons-collections:3.2.1',
+
+    )
+
+    compile('org.springframework:spring-context:4.2.4.RELEASE')
+    compile('org.springframework:spring-web:4.2.4.RELEASE')
+    compile('org.springframework:spring-webmvc:4.2.4.RELEASE')
+    compile('javax.inject:javax.inject:1')
+    compile('mysql:mysql-connector-java:5.1.38')
+    compile('org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final')
+    compile('org.springframework.data:spring-data-jpa:1.9.1.RELEASE')
+    compile('net.sf.ehcache:ehcache-core:2.6.9')
+    compile('javax.transaction:jta:1.1')
+    compile('com.fasterxml.jackson.core:jackson-databind:2.6.4')
+    compile('org.apache.httpcomponents:httpclient:4.5.1')
+    compile('com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.7.4')
+//    compile('org.apache.httpcomponents:httpmime: 4.5.1')
+    compile('com.alibaba:dubbo:2.5.3')
+            {
+                exclude group: 'org.springframework', module: 'spring'
+                exclude group: 'org.javassist'
+            }
+    compile('org.apache.zookeeper:zookeeper:3.5.1-alpha')
+    compile('com.github.sgroschupf:zkclient:0.1')
+    compile('commons-lang:commons-lang:2.6')
+}
